@@ -33,7 +33,7 @@ char GameMechs::getInput()
         input = MacUILib_getChar();
     }
 
-    //return?
+    return input;
 }
 
 int GameMechs::getBoardSizeX()
@@ -54,7 +54,7 @@ void GameMechs::setExitTrue()
 
 void GameMechs::setInput(char this_input)
 {
-   
+   input = this_input;
 }
 
 void GameMechs::clearInput()

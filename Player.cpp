@@ -1,4 +1,5 @@
 #include "Player.h"
+#include "MacUILib.h"
 
 
 Player::Player(GameMechs* thisGMRef)
@@ -15,6 +16,7 @@ Player::Player(GameMechs* thisGMRef)
 Player::~Player()
 {
     // delete any heap members here
+    
 }
 
 void Player::getPlayerPos(objPos &returnPos)
@@ -91,18 +93,26 @@ void Player::movePlayer()
     {
         case UP:
             playerPos.x -= 1;
+            MacUILib_init();
+            MacUILib_clearScreen();
             break;
 
         case LEFT:
             playerPos.y -= 1;
+            MacUILib_init();
+            MacUILib_clearScreen();
             break;
 
         case DOWN:
             playerPos.x += 1;
+            MacUILib_init();
+            MacUILib_clearScreen();
             break;
         
         case RIGHT:
             playerPos.y += 1;
+            MacUILib_init();
+            MacUILib_clearScreen();
             break;
         default:
             break;

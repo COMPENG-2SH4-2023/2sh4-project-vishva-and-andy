@@ -13,6 +13,7 @@ GameMechs* myGm;
 Player* myPlayer;
 objPos playerPos;
 
+
 void Initialize(void);
 void GetInput(void);
 void RunLogic(void);
@@ -118,6 +119,9 @@ void LoopDelay(void)
 void CleanUp(void)
 {
     MacUILib_clearScreen();    
+
+    //delete[] myGm;
+    //delete[] myPlayer;
   
     MacUILib_uninit();
 }
