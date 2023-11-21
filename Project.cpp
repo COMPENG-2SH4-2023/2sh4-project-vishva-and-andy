@@ -102,7 +102,24 @@ void DrawScreen(void)
         printf("\n");
         for(j=0; j<30; j++)
         {
+            if((playerPos.x == i) && (playerPos.y == j))
+            {
+                mat[i][j] = playerPos.symbol;
+            }
+            else if((i == 0) || (i == 14))
+            {
+                mat[i][j] = '#';
+            }
+            else if((j == 0) || (j == 29))
+            {
+                mat[i][j] = '#';
+            }
+            else 
+            {
+                mat[i][j] = ' ';
+            }
             printf("%c", mat[i][j]);
+            
         }
     }
     

@@ -34,6 +34,7 @@ void Player::updatePlayerDir()
     switch(input)
     {
         case ' ':
+            mainGameMechsRef->setExitTrue();
             break;
         case 'W':
         case 'w':
@@ -93,25 +94,21 @@ void Player::movePlayer()
     {
         case UP:
             playerPos.x -= 1;
-            MacUILib_init();
             MacUILib_clearScreen();
             break;
 
         case LEFT:
             playerPos.y -= 1;
-            MacUILib_init();
             MacUILib_clearScreen();
             break;
 
         case DOWN:
             playerPos.x += 1;
-            MacUILib_init();
             MacUILib_clearScreen();
             break;
         
         case RIGHT:
             playerPos.y += 1;
-            MacUILib_init();
             MacUILib_clearScreen();
             break;
         default:
