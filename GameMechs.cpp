@@ -1,5 +1,6 @@
 #include "GameMechs.h"
 #include "MacUILib.h"
+#include "time.h"
 
 GameMechs::GameMechs()
 {
@@ -24,6 +25,11 @@ GameMechs::GameMechs(int boardX, int boardY)
 bool GameMechs::getExitFlagStatus()
 {
     return exitFlag;
+}
+
+void GameMechs::setLoseFlag()
+{
+    input = ' ';
 }
 
 char GameMechs::getInput()
@@ -60,6 +66,20 @@ void GameMechs::setInput(char this_input)
 void GameMechs::clearInput()
 {
 
+}
+
+void GameMechs::generateFood(objPos blockOff)
+{
+    
+    blockOff.x = rand() % (13) + 1;
+    blockOff.y = rand() % (28) + 1;
+    blockOff.symbol = 'O';
+    
+}
+
+void GameMechs::getFoodPos(objPos &returnPos)
+{
+    returnPos.setObjPos(foodPos.x, foodPos.y, foodPos.symbol);
 }
 
 

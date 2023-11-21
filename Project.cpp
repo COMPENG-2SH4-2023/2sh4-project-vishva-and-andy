@@ -12,6 +12,7 @@ using namespace std;
 GameMechs* myGm;
 Player* myPlayer;
 objPos playerPos;
+objPos foodPos;
 
 
 void Initialize(void);
@@ -51,6 +52,8 @@ void Initialize(void)
     myPlayer = new Player(myGm);
     myPlayer->getPlayerPos(playerPos);
 
+    myGm->generateFood(foodPos);
+    myGm->getFoodPos(foodPos);
 
     for(i=0; i<15; i++)
     {
@@ -82,7 +85,6 @@ void Initialize(void)
 void GetInput(void)
 {
    myGm->getInput();
-   //myGm->setInput();
 }
 
 void RunLogic(void)
@@ -97,6 +99,8 @@ void DrawScreen(void)
 
     int i,j;
     myPlayer->getPlayerPos(playerPos);
+    myGm->getFoodPos(foodPos);
+
     for(i=0; i<15; i++)
     {
         printf("\n");
@@ -122,8 +126,17 @@ void DrawScreen(void)
             
         }
     }
-    
     printf("\n");
+
+    if((playerPos.x == 0) || (playerPos.x == 14))  //lose conditions
+    {
+        myGm->setLoseFlag();
+    }
+    else if((playerPos.y == 0) || (playerPos.y == 29))
+    {
+        myGm->setLoseFlag();
+    }
+    
     printf("Board Size: [%d][%d], Player Position: <%d,%d>, Symbol: %c", myGm->getBoardSizeX(), myGm->getBoardSizeY(), playerPos.x, playerPos.y, playerPos.symbol);
 }
 
@@ -136,9 +149,6 @@ void LoopDelay(void)
 void CleanUp(void)
 {
     MacUILib_clearScreen();    
-
-    //delete[] myGm;
-    //delete[] myPlayer;
   
     MacUILib_uninit();
 }
