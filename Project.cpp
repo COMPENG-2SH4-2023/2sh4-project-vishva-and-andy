@@ -3,6 +3,7 @@
 #include "objPos.h"
 #include "GameMechs.h"
 #include "Player.h"
+#include "time.h"
 
 
 using namespace std;
@@ -14,6 +15,8 @@ Player* myPlayer;
 objPos playerPos;
 objPos foodPos;
 
+int score = 0;
+time_t t;
 
 void Initialize(void);
 void GetInput(void);
@@ -48,6 +51,7 @@ void Initialize(void)
     MacUILib_clearScreen();
 
     int i,j;
+    srand((unsigned) time(&t));
     myGm = new GameMechs(15,30);
     myPlayer = new Player(myGm);
     myPlayer->getPlayerPos(playerPos);
@@ -62,6 +66,10 @@ void Initialize(void)
             if((playerPos.x == i) && (playerPos.y == j))
             {
                 mat[i][j] = playerPos.symbol;
+            }
+            else if((foodPos.x == i) && (foodPos.y == j))
+            {
+                mat[i][j] = foodPos.symbol;
             }
             else if((i == 0) || (i == 14))
             {
@@ -91,6 +99,11 @@ void RunLogic(void)
 {
     myPlayer->updatePlayerDir();
     myPlayer->movePlayer();
+    if((playerPos.x == foodPos.x) && (playerPos.y == foodPos.y))
+    {
+        myGm->getFoodPos(foodPos);
+        ++score;
+    }
 }
 
 void DrawScreen(void)
@@ -99,7 +112,6 @@ void DrawScreen(void)
 
     int i,j;
     myPlayer->getPlayerPos(playerPos);
-    myGm->getFoodPos(foodPos);
 
     for(i=0; i<15; i++)
     {
@@ -109,6 +121,10 @@ void DrawScreen(void)
             if((playerPos.x == i) && (playerPos.y == j))
             {
                 mat[i][j] = playerPos.symbol;
+            }
+            else if((foodPos.x == i) && (foodPos.y == j))
+            {
+                mat[i][j] = foodPos.symbol;
             }
             else if((i == 0) || (i == 14))
             {
@@ -137,7 +153,8 @@ void DrawScreen(void)
         myGm->setLoseFlag();
     }
     
-    printf("Board Size: [%d][%d], Player Position: <%d,%d>, Symbol: %c", myGm->getBoardSizeX(), myGm->getBoardSizeY(), playerPos.x, playerPos.y, playerPos.symbol);
+    //printf("Board Size: [%d][%d], Player Position: <%d,%d>, Symbol: %c", myGm->getBoardSizeX(), myGm->getBoardSizeY(), playerPos.x, playerPos.y, playerPos.symbol);
+    printf("Score: %d", score);
 }
 
 void LoopDelay(void)

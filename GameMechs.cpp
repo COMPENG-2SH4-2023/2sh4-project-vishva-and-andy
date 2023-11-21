@@ -1,6 +1,7 @@
 #include "GameMechs.h"
 #include "MacUILib.h"
 #include "time.h"
+#include "stdlib.h"
 
 GameMechs::GameMechs()
 {
@@ -72,14 +73,14 @@ void GameMechs::generateFood(objPos blockOff)
 {
     
     blockOff.x = rand() % (13) + 1;
-    blockOff.y = rand() % (28) + 1;
+    blockOff.y = rand() % (28) + 1; //transfer to getFoodPos function
     blockOff.symbol = 'O';
     
 }
 
 void GameMechs::getFoodPos(objPos &returnPos)
 {
-    returnPos.setObjPos(foodPos.x, foodPos.y, foodPos.symbol);
+    returnPos.setObjPos(rand() % (13) + 1, rand() % (28) + 1, 'O');
 }
 
 
