@@ -31,7 +31,8 @@ void Player::updatePlayerDir()
 
     switch(input)
     {
-        
+        case ' ':
+            break;
         case 'W':
         case 'w':
             if(myDir == DOWN)
@@ -86,5 +87,25 @@ void Player::updatePlayerDir()
 void Player::movePlayer()
 {
     // PPA3 Finite State Machine logic
+    switch (myDir)
+    {
+        case UP:
+            playerPos.x -= 1;
+            break;
+
+        case LEFT:
+            playerPos.y -= 1;
+            break;
+
+        case DOWN:
+            playerPos.x += 1;
+            break;
+        
+        case RIGHT:
+            playerPos.y += 1;
+            break;
+        default:
+            break;
+    }
 }
 
