@@ -6,7 +6,9 @@
 GameMechs::GameMechs()
 {
     input = 0;
+    score = 0;
     exitFlag = false;
+    loseFlag = false;
     boardSizeX = 20;
     boardSizeY = 10;
 }
@@ -14,7 +16,9 @@ GameMechs::GameMechs()
 GameMechs::GameMechs(int boardX, int boardY)
 {
     input = 0;
+    score = 0;
     exitFlag = false;
+    loseFlag = false;
     boardSizeX = boardX;
     boardSizeY = boardY;
 }
@@ -28,9 +32,14 @@ bool GameMechs::getExitFlagStatus()
     return exitFlag;
 }
 
+bool GameMechs::getLoseFlagStatus()
+{
+    return loseFlag;
+}
+
 void GameMechs::setLoseFlag()
 {
-    input = ' ';
+    loseFlag = true;
 }
 
 char GameMechs::getInput()
@@ -66,7 +75,7 @@ void GameMechs::setInput(char this_input)
 
 void GameMechs::clearInput()
 {
-
+   //not needed but how to implement?
 }
 
 void GameMechs::generateFood(objPos blockOff)
@@ -80,7 +89,17 @@ void GameMechs::generateFood(objPos blockOff)
 
 void GameMechs::getFoodPos(objPos &returnPos)
 {
-    returnPos.setObjPos(rand() % (13) + 1, rand() % (28) + 1, 'O');
+    returnPos.setObjPos(rand() % (13) + 1, rand() % (28) + 1, 'O'); //still working on
+}
+
+int GameMechs::getScore()
+{
+    return score;
+}
+
+void GameMechs::incrementScore()
+{
+    ++score;
 }
 
 

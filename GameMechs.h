@@ -33,6 +33,7 @@ class GameMechs
         GameMechs(int boardX, int boardY);
         
         bool getExitFlagStatus();
+        bool getLoseFlagStatus();
         void setLoseFlag();
         void setExitTrue();
 
@@ -45,6 +46,9 @@ class GameMechs
 
         void generateFood(objPos blockOff);
         void getFoodPos(objPos &returnPos);
+
+        int getScore();
+        void incrementScore();
       
 
 };

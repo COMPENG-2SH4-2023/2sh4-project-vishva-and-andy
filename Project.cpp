@@ -15,7 +15,6 @@ Player* myPlayer;
 objPos playerPos;
 objPos foodPos;
 
-int score = 0;
 time_t t;
 
 void Initialize(void);
@@ -101,8 +100,9 @@ void RunLogic(void)
     myPlayer->movePlayer();
     if((playerPos.x == foodPos.x) && (playerPos.y == foodPos.y))
     {
+        myGm->generateFood(foodPos);
         myGm->getFoodPos(foodPos);
-        ++score;
+        myGm->incrementScore();
     }
 }
 
@@ -110,51 +110,62 @@ void DrawScreen(void)
 {
     MacUILib_clearScreen();    
 
-    int i,j;
-    myPlayer->getPlayerPos(playerPos);
-
-    for(i=0; i<15; i++)
+    if(myGm->getLoseFlagStatus() == false)
     {
-        printf("\n");
-        for(j=0; j<30; j++)
+        int i,j;
+        myPlayer->getPlayerPos(playerPos);
+
+        for(i=0; i<15; i++)
         {
-            if((playerPos.x == i) && (playerPos.y == j))
+            printf("\n");
+            for(j=0; j<30; j++)
             {
-                mat[i][j] = playerPos.symbol;
+                if((playerPos.x == i) && (playerPos.y == j))
+                {
+                    mat[i][j] = playerPos.symbol;
+                }
+                else if((foodPos.x == i) && (foodPos.y == j))
+                {
+                    mat[i][j] = foodPos.symbol;
+                }
+                else if((i == 0) || (i == 14))
+                {
+                    mat[i][j] = '#';
+                }
+                else if((j == 0) || (j == 29))
+                {
+                    mat[i][j] = '#';
+                }
+                else 
+                {
+                    mat[i][j] = ' ';
+                }
+                printf("%c", mat[i][j]);
+                
             }
-            else if((foodPos.x == i) && (foodPos.y == j))
-            {
-                mat[i][j] = foodPos.symbol;
-            }
-            else if((i == 0) || (i == 14))
-            {
-                mat[i][j] = '#';
-            }
-            else if((j == 0) || (j == 29))
-            {
-                mat[i][j] = '#';
-            }
-            else 
-            {
-                mat[i][j] = ' ';
-            }
-            printf("%c", mat[i][j]);
-            
         }
-    }
-    printf("\n");
+        printf("\n");
 
-    if((playerPos.x == 0) || (playerPos.x == 14))  //lose conditions
-    {
-        myGm->setLoseFlag();
+        if((playerPos.x == 0) || (playerPos.x == 14))  //lose conditions
+        {
+            myGm->setLoseFlag();
+        }
+        else if((playerPos.y == 0) || (playerPos.y == 29))
+        {
+            myGm->setLoseFlag();
+        }
+        
+        //printf("Board Size: [%d][%d], Player Position: <%d,%d>, Symbol: %c", myGm->getBoardSizeX(), myGm->getBoardSizeY(), playerPos.x, playerPos.y, playerPos.symbol);
+        printf("Score: %d", myGm->getScore());
     }
-    else if((playerPos.y == 0) || (playerPos.y == 29))
+    else if(myGm->getLoseFlagStatus() == true)
     {
-        myGm->setLoseFlag();
+        printf("Snake Died!\n");
+        printf("Score: %d\n", myGm->getScore());
+        printf("Hit Space Bar to Exit");
+        
     }
     
-    //printf("Board Size: [%d][%d], Player Position: <%d,%d>, Symbol: %c", myGm->getBoardSizeX(), myGm->getBoardSizeY(), playerPos.x, playerPos.y, playerPos.symbol);
-    printf("Score: %d", score);
 }
 
 void LoopDelay(void)
