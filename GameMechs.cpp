@@ -81,15 +81,23 @@ void GameMechs::clearInput()
 void GameMechs::generateFood(objPos blockOff)
 {
     
-    blockOff.x = rand() % (13) + 1;
-    blockOff.y = rand() % (28) + 1; //transfer to getFoodPos function
-    blockOff.symbol = 'O';
+    foodPos.x = rand() % (13) + 1;
+    foodPos.y = rand() % (28) + 1;  
+    foodPos.symbol = 'O';
+    if((blockOff.x == foodPos.x) && (blockOff.y == foodPos.y))
+    {
+        while((blockOff.x == foodPos.x) && (blockOff.y == foodPos.y))
+        {
+            foodPos.x = rand() % (13) + 1;
+            foodPos.y = rand() % (28) + 1;  //blockOff = playerPos
+        }
+    }
     
 }
 
 void GameMechs::getFoodPos(objPos &returnPos)
 {
-    returnPos.setObjPos(rand() % (13) + 1, rand() % (28) + 1, 'O'); //still working on
+    returnPos.setObjPos(foodPos.x, foodPos.y, foodPos.symbol); 
 }
 
 int GameMechs::getScore()

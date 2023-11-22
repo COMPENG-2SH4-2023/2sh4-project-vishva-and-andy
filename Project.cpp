@@ -55,7 +55,7 @@ void Initialize(void)
     myPlayer = new Player(myGm);
     myPlayer->getPlayerPos(playerPos);
 
-    myGm->generateFood(foodPos);
+    myGm->generateFood(playerPos);
     myGm->getFoodPos(foodPos);
 
     for(i=0; i<15; i++)
@@ -100,7 +100,7 @@ void RunLogic(void)
     myPlayer->movePlayer();
     if((playerPos.x == foodPos.x) && (playerPos.y == foodPos.y))
     {
-        myGm->generateFood(foodPos);
+        myGm->generateFood(playerPos);
         myGm->getFoodPos(foodPos);
         myGm->incrementScore();
     }
