@@ -58,9 +58,9 @@ void Initialize(void)
     myGm->generateFood(playerPos);
     myGm->getFoodPos(foodPos);
 
-    for(i=0; i<15; i++)
+    for(i=0; i<myGm->getBoardSizeX(); i++)
     {
-        for(j=0; j<30; j++)
+        for(j=0; j<myGm->getBoardSizeY(); j++)
         {
             if((playerPos.x == i) && (playerPos.y == j))
             {
@@ -70,11 +70,11 @@ void Initialize(void)
             {
                 mat[i][j] = foodPos.symbol;
             }
-            else if((i == 0) || (i == 14))
+            else if((i == 0) || (i == (myGm->getBoardSizeX() - 1)))
             {
                 mat[i][j] = '#';
             }
-            else if((j == 0) || (j == 29))
+            else if((j == 0) || (j == (myGm->getBoardSizeY()-1)))
             {
                 mat[i][j] = '#';
             }
@@ -98,6 +98,7 @@ void RunLogic(void)
 {
     myPlayer->updatePlayerDir();
     myPlayer->movePlayer();
+    myGm->clearInput();
     if((playerPos.x == foodPos.x) && (playerPos.y == foodPos.y))
     {
         myGm->generateFood(playerPos);
@@ -115,10 +116,10 @@ void DrawScreen(void)
         int i,j;
         myPlayer->getPlayerPos(playerPos);
 
-        for(i=0; i<15; i++)
+        for(i=0; i<myGm->getBoardSizeX(); i++)
         {
             printf("\n");
-            for(j=0; j<30; j++)
+            for(j=0; j<myGm->getBoardSizeY(); j++)
             {
                 if((playerPos.x == i) && (playerPos.y == j))
                 {
@@ -128,11 +129,11 @@ void DrawScreen(void)
                 {
                     mat[i][j] = foodPos.symbol;
                 }
-                else if((i == 0) || (i == 14))
+                else if((i == 0) || (i == (myGm->getBoardSizeX() - 1)))
                 {
                     mat[i][j] = '#';
                 }
-                else if((j == 0) || (j == 29))
+                else if((j == 0) || (j == (myGm->getBoardSizeY() - 1)))
                 {
                     mat[i][j] = '#';
                 }
@@ -146,11 +147,11 @@ void DrawScreen(void)
         }
         printf("\n");
 
-        if((playerPos.x == 0) || (playerPos.x == 14))  //lose conditions
+        if((playerPos.x == 0) || (playerPos.x == (myGm->getBoardSizeX() - 1)))  //lose conditions
         {
             myGm->setLoseFlag();
         }
-        else if((playerPos.y == 0) || (playerPos.y == 29))
+        else if((playerPos.y == 0) || (playerPos.y == (myGm->getBoardSizeY() - 1)))
         {
             myGm->setLoseFlag();
         }

@@ -75,7 +75,7 @@ void GameMechs::setInput(char this_input)
 
 void GameMechs::clearInput()
 {
-   //not needed but how to implement?
+   input = 0;
 }
 
 void GameMechs::generateFood(objPos blockOff)
