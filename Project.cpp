@@ -55,7 +55,7 @@ void Initialize(void)
     myPlayer = new Player(myGm);
 
 
-    myGm->generateFood(playerPos);
+    myGm->generateFood(playerPos);  //may need to fix 
     myGm->getFoodPos(foodPos);
    
 }
