@@ -4,7 +4,7 @@
 #include "GameMechs.h"
 #include "Player.h"
 #include "time.h"
-
+#include "objPosArrayList.h"
 
 using namespace std;
 
@@ -53,39 +53,10 @@ void Initialize(void)
     srand((unsigned) time(&t));
     myGm = new GameMechs(15,30);
     myPlayer = new Player(myGm);
-    myPlayer->getPlayerPos(playerPos);
+
 
     myGm->generateFood(playerPos);
     myGm->getFoodPos(foodPos);
-
-    for(i=0; i<15; i++)
-    {
-        for(j=0; j<30; j++)
-        {
-            if((playerPos.x == i) && (playerPos.y == j))
-            {
-                mat[i][j] = playerPos.symbol;
-            }
-            else if((foodPos.x == i) && (foodPos.y == j))
-            {
-                mat[i][j] = foodPos.symbol;
-            }
-            else if((i == 0) || (i == 14))
-            {
-                mat[i][j] = '#';
-            }
-            else if((j == 0) || (j == 29))
-            {
-                mat[i][j] = '#';
-            }
-            else 
-            {
-                mat[i][j] = ' ';
-            }
-        }
-    }
-    
-
    
 }
 
@@ -98,6 +69,7 @@ void RunLogic(void)
 {
     myPlayer->updatePlayerDir();
     myPlayer->movePlayer();
+    myGm->clearInput();
     if((playerPos.x == foodPos.x) && (playerPos.y == foodPos.y))
     {
         myGm->generateFood(playerPos);
@@ -113,56 +85,63 @@ void DrawScreen(void)
     if(myGm->getLoseFlagStatus() == false)
     {
         int i,j;
-        myPlayer->getPlayerPos(playerPos);
+        
+        bool drawn;
 
-        for(i=0; i<15; i++)
+        objPos tempBody;
+        
+        objPosArrayList* playerBody = myPlayer->getPlayerPos();
+
+        for(i=0; i<myGm->getBoardSizeX(); i++)
         {
             printf("\n");
-            for(j=0; j<30; j++)
+            for(j=0; j<myGm->getBoardSizeY(); j++)
             {
-                if((playerPos.x == i) && (playerPos.y == j))
+                
+                drawn = false;
+
+                for(int k = 0; k < playerBody -> getSize(); k++)
                 {
-                    mat[i][j] = playerPos.symbol;
+                    playerBody -> getElement(tempBody, k);
+                    {
+                        MacUILib_printf("%c", tempBody.symbol);
+                        drawn = true;
+                        break;
+                    }
                 }
-                else if((foodPos.x == i) && (foodPos.y == j))
+                
+                if(drawn) continue;
+
+                if((foodPos.x == i) && (foodPos.y == j))
                 {
-                    mat[i][j] = foodPos.symbol;
+                    MacUILib_printf("%c", foodPos.symbol);
                 }
-                else if((i == 0) || (i == 14))
+                else if((i == 0) || (i == (myGm->getBoardSizeX() - 1)))
                 {
-                    mat[i][j] = '#';
+                    MacUILib_printf("#");
                 }
-                else if((j == 0) || (j == 29))
+                else if((j == 0) || (j == (myGm->getBoardSizeY() - 1)))
                 {
-                    mat[i][j] = '#';
+                    MacUILib_printf("#");
                 }
                 else 
                 {
-                    mat[i][j] = ' ';
+                    MacUILib_printf(" ");
                 }
-                printf("%c", mat[i][j]);
+                MacUILib_printf("%c", mat[i][j]);
                 
             }
         }
-        printf("\n");
-
-        if((playerPos.x == 0) || (playerPos.x == 14))  //lose conditions
-        {
-            myGm->setLoseFlag();
-        }
-        else if((playerPos.y == 0) || (playerPos.y == 29))
-        {
-            myGm->setLoseFlag();
-        }
+        MacUILib_printf("\n");
         
         //printf("Board Size: [%d][%d], Player Position: <%d,%d>, Symbol: %c", myGm->getBoardSizeX(), myGm->getBoardSizeY(), playerPos.x, playerPos.y, playerPos.symbol);
-        printf("Score: %d", myGm->getScore());
+        MacUILib_printf("Score: %d", myGm->getScore());
     }
     else if(myGm->getLoseFlagStatus() == true)
     {
-        printf("Snake Died!\n");
-        printf("Score: %d\n", myGm->getScore());
-        printf("Hit Space Bar to Exit");
+        MacUILib_printf("Snake Died!\n");
+        MacUILib_printf("Score: %d\n", myGm->getScore());
+        MacUILib_printf("Hit Space Bar to Exit");
         
     }
     

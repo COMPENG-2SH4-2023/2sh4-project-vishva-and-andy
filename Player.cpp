@@ -6,22 +6,26 @@ Player::Player(GameMechs* thisGMRef)
     mainGameMechsRef = thisGMRef;
     myDir = STOP;
 
-    playerPos.setObjPos(mainGameMechsRef->getBoardSizeX()/2,mainGameMechsRef->getBoardSizeY()/2,'@');
+    objPos tempPos;
+    tempPos.setObjPos(mainGameMechsRef->getBoardSizeX()/2,mainGameMechsRef->getBoardSizeY()/2,'@');
 
     // more actions to be included
+
+    playerPosList = new objPosArrayList();
+    playerPosList->insertHead(tempPos);
 }
 
 
 Player::~Player()
 {
     // delete any heap members here
-    
+    delete playerPosList;
 }
 
-void Player::getPlayerPos(objPos &returnPos)
+objPosArrayList* Player::getPlayerPos()
 {
-    returnPos.setObjPos(playerPos.x, playerPos.y, playerPos.symbol);
     // return the reference to the playerPos arrray list
+    return playerPosList;
 }
 
 void Player::updatePlayerDir()
@@ -88,26 +92,56 @@ void Player::updatePlayerDir()
 
 void Player::movePlayer()
 {
+
+    objPos currentHead;
+
+    playerPosList->getHeadElement(currentHead);
+
     // PPA3 Finite State Machine logic
     switch (myDir)
     {
         case UP:
-            playerPos.x -= 1;
+            currentHead.y -= 1;
+
+            if(currentHead.y <= 0)
+            {
+                currentHead.y = mainGameMechsRef -> getBoardSizeY() - 2;
+            }
             break;
 
         case LEFT:
-            playerPos.y -= 1;
+            currentHead.x -= 1;
+
+            if(currentHead.x <= 0)
+            {
+                currentHead.x = mainGameMechsRef -> getBoardSizeX() - 2;
+            }
             break;
 
         case DOWN:
-            playerPos.x += 1;
+            currentHead.y += 1;
+
+            if(currentHead.y >= mainGameMechsRef->getBoardSizeY())
+            {
+                currentHead.y = 1;
+            }
             break;
         
         case RIGHT:
-            playerPos.y += 1;
+            currentHead.x += 1;
+
+            if(currentHead.x >= mainGameMechsRef -> getBoardSizeX())
+            {
+                currentHead.x = 1;
+            }
+            
             break;
+
+        case STOP:
         default:
             break;
     }
-}
 
+    playerPosList -> insertHead(currentHead);
+    playerPosList -> removeTail();
+}
