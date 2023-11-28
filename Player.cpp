@@ -13,6 +13,8 @@ Player::Player(GameMechs* thisGMRef)
 
     playerPosList = new objPosArrayList();
     playerPosList->insertHead(tempPos);
+    //playerPosList->insertHead(tempPos);
+    //playerPosList->insertHead(tempPos);
 }
 
 
@@ -101,15 +103,6 @@ void Player::movePlayer()
     switch (myDir)
     {
         case UP:
-            currentHead.y -= 1;
-
-            if(currentHead.y <= 0)
-            {
-                currentHead.y = mainGameMechsRef -> getBoardSizeY() - 2;
-            }
-            break;
-
-        case LEFT:
             currentHead.x -= 1;
 
             if(currentHead.x <= 0)
@@ -118,21 +111,30 @@ void Player::movePlayer()
             }
             break;
 
-        case DOWN:
-            currentHead.y += 1;
+        case LEFT:
+            currentHead.y -= 1;
 
-            if(currentHead.y >= mainGameMechsRef->getBoardSizeY())
+            if(currentHead.y <= 0)
             {
-                currentHead.y = 1;
+                currentHead.y = mainGameMechsRef -> getBoardSizeY() - 2;
+            }
+            break;
+
+        case DOWN:
+            currentHead.x += 1;
+
+            if(currentHead.x >= mainGameMechsRef->getBoardSizeX())
+            {
+                currentHead.x = 1;
             }
             break;
         
         case RIGHT:
-            currentHead.x += 1;
+            currentHead.y += 1;
 
-            if(currentHead.x >= mainGameMechsRef -> getBoardSizeX())
+            if(currentHead.y >= mainGameMechsRef -> getBoardSizeY())
             {
-                currentHead.x = 1;
+                currentHead.y = 1;
             }
             
             break;

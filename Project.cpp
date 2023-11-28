@@ -103,6 +103,7 @@ void DrawScreen(void)
                 for(int k = 0; k < playerBody -> getSize(); k++)
                 {
                     playerBody -> getElement(tempBody, k);
+                    if((tempBody.x == i) && (tempBody.y == j))
                     {
                         MacUILib_printf("%c", tempBody.symbol);
                         drawn = true;
