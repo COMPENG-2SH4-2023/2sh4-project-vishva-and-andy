@@ -67,11 +67,15 @@ void GetInput(void)
 
 void RunLogic(void)
 {
+    objPos tempBody;
+    objPosArrayList* playerBody = myPlayer->getPlayerPos();
+    playerBody->getElement(tempBody, 0);
     myPlayer->updatePlayerDir();
     myPlayer->movePlayer();
     myGm->clearInput();
-    if((playerPos.x == foodPos.x) && (playerPos.y == foodPos.y))
+    if((tempBody.x == foodPos.x) && (tempBody.y == foodPos.y))
     {
+        playerBody->insertHead(tempBody);
         myGm->generateFood(playerPos);
         myGm->getFoodPos(foodPos);
         myGm->incrementScore();

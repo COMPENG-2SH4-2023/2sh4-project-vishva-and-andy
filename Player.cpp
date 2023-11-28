@@ -13,8 +13,7 @@ Player::Player(GameMechs* thisGMRef)
 
     playerPosList = new objPosArrayList();
     playerPosList->insertHead(tempPos);
-    //playerPosList->insertHead(tempPos);
-    //playerPosList->insertHead(tempPos);
+    
 }
 
 
