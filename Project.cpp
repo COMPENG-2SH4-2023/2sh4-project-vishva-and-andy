@@ -83,14 +83,22 @@ void RunLogic(void)
     if((tempBody.x == foodPos.x) && (tempBody.y == foodPos.y))
     {
         playerBody->insertTail(tempBody);   //changed from insert head
-        int a;
-        for(a=0; a<playerBody->getSize(); a++)
+        myGm->incrementScore();
+        myGm->generateFood(tempBody);
+        myGm->getFoodPos(foodPos);
+        for(int a=0; a<playerBody->getSize(); a++)
         {
             playerBody->getElement(tempBody, a);
-            myGm->generateFood(tempBody);
+            if(a!=0)
+            {
+                if((tempBody.x == foodPos.x) && (tempBody.y == foodPos.y))
+                {
+                    myGm->generateFood(tempBody);
+                    myGm->getFoodPos(foodPos);
+                    a=0;
+                }
+            }
         }
-        myGm->getFoodPos(foodPos);
-        myGm->incrementScore();
     }
 }
 
