@@ -69,7 +69,7 @@ void RunLogic(void)
 {
     objPos tempBody;
     objPosArrayList* playerBody = myPlayer->getPlayerPos();
-    playerBody->getElement(tempBody, 0);
+    playerBody->getHeadElement(tempBody);
     myPlayer->updatePlayerDir();
     myPlayer->movePlayer();
     myGm->clearInput();
@@ -77,14 +77,18 @@ void RunLogic(void)
     if (myPlayer->checkSelfCollision())
     {
         myGm -> setLoseFlag();
-        myGm -> setExitTrue();
         return;
     }
 
     if((tempBody.x == foodPos.x) && (tempBody.y == foodPos.y))
     {
         playerBody->insertTail(tempBody);   //changed from insert head
-        myGm->generateFood(playerPos);
+        int a;
+        for(a=0; a<playerBody->getSize(); a++)
+        {
+            playerBody->getElement(tempBody, a);
+            myGm->generateFood(tempBody);
+        }
         myGm->getFoodPos(foodPos);
         myGm->incrementScore();
     }
