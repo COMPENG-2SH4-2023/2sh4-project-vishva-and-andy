@@ -73,9 +73,17 @@ void RunLogic(void)
     myPlayer->updatePlayerDir();
     myPlayer->movePlayer();
     myGm->clearInput();
+
+    if (myPlayer->checkSelfCollision())
+    {
+        myGm -> setLoseFlag();
+        myGm -> setExitTrue();
+        return;
+    }
+
     if((tempBody.x == foodPos.x) && (tempBody.y == foodPos.y))
     {
-        playerBody->insertHead(tempBody);
+        playerBody->insertTail(tempBody);   //changed from insert head
         myGm->generateFood(playerPos);
         myGm->getFoodPos(foodPos);
         myGm->incrementScore();
@@ -147,7 +155,6 @@ void DrawScreen(void)
         MacUILib_printf("Snake Died!\n");
         MacUILib_printf("Score: %d\n", myGm->getScore());
         MacUILib_printf("Hit Space Bar to Exit");
-        
     }
     
 }
